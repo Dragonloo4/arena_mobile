@@ -23,6 +23,10 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: Generate Android project structure
+        run: |
+          flutter create . --org com.arena.app --platforms android --project-name arena_mobile
+
       - name: Install dependencies
         run: flutter pub get
 
