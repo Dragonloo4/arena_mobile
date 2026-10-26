@@ -19,13 +19,22 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.16.5'
+          flutter-version: '3.19.0'
           channel: 'stable'
           cache: true
 
-      - name: Generate Android project structure
+      - name: Create Android template
+        run: flutter create . --org com.arena.app --platforms android --project-name arena_mobile
+
+      - name: Fix SDK version to 34
         run: |
-          flutter create . --org com.arena.app --platforms android --project-name arena_mobile
+          # Автоматически прописываем compileSdkVersion 34 в build.gradle
+          file="android/app/build.gradle"
+          if [ -f "$file" ]; then
+            sed -i 's/flutter.compileSdkVersion.*/flutter.compileSdkVersion = 34/g' $file
+            sed -i 's/minSdkVersion.*/minSdkVersion 21/g' $file
+            sed -i 's/targetSdkVersion.*/targetSdkVersion 34/g' $file
+          fi
 
       - name: Install dependencies
         run: flutter pub get
