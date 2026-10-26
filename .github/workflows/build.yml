@@ -23,6 +23,9 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: Create Android template if missing
+        run: flutter create . --org com.arena.app --platforms android
+
       - name: Install dependencies
         run: flutter pub get
 
@@ -34,3 +37,4 @@ jobs:
         with:
           name: app-release
           path: build/app/outputs/flutter-apk/app-release.apk
+          
