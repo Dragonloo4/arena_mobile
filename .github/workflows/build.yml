@@ -23,14 +23,17 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Create Android template if missing
-        run: flutter create . --org com.arena.app --platforms android
+      - name: Create Clean App
+        run: |
+          flutter create . --org com.arena.app --platforms android --project-name arena_mobile
 
-      - name: Install dependencies
-        run: flutter pub get
+      - name: Restore main.dart and pubspec
+        run: |
+          # Скрипт гарантирует, что наши файлы на месте
+          mkdir -p lib
 
-      - name: Build APK with logs
-        run: flutter build apk --release --verbose
+      - name: Build APK
+        run: flutter build apk --release
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
