@@ -19,18 +19,12 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.0'
+          flutter-version: '3.16.5'
           channel: 'stable'
           cache: true
 
-      - name: Create Clean App
-        run: |
-          flutter create . --org com.arena.app --platforms android --project-name arena_mobile
-
-      - name: Restore main.dart and pubspec
-        run: |
-          # Скрипт гарантирует, что наши файлы на месте
-          mkdir -p lib
+      - name: Install dependencies
+        run: flutter pub get
 
       - name: Build APK
         run: flutter build apk --release
