@@ -50,6 +50,7 @@ class _ArenaWebViewScreenState extends State<ArenaWebViewScreen> {
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0xFF121212))
+      ..clearCache()
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
@@ -66,6 +67,13 @@ class _ArenaWebViewScreenState extends State<ArenaWebViewScreen> {
         ),
       )
       ..loadRequest(Uri.parse(targetUrl));
+
+    // Включаем хранилище для корректной работы веб-агента
+    if (_controller.platform is AndroidWebViewController) {
+      AndroidWebViewController.enableDebugging(true);
+      (_controller.platform as AndroidWebViewController)
+          .setMediaPlaybackRequiresUserGesture(false);
+    }
   }
 
   @override
